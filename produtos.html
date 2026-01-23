@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Produtos - Metalúrgica R</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Produtos - Metalúrgica R</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -13,398 +14,71 @@
     <a href="index.html">Início</a>
     <a href="produtos.html">Produtos</a>
     <a href="contato.html">Contato</a>
-    <a href="admin.html">Admin</a>
   </nav>
 </header>
 
 <section style="text-align:center; margin:20px;">
-  <input type="text" id="pesquisa" placeholder="Pesquisar produto...">
+  <input type="text" id="pesquisa" placeholder="Pesquisar produto (ex: portão 1)">
 </section>
 
-<div class="produtos-container" id="produtos-container"></div>
+<section class="produtos-container" id="produtosContainer">
+  <!-- Cards gerados via JS -->
+</section>
 
-<script src="js/script.js"></script>
+<footer>
+  &copy; Rafael Rubens - Metalúrgica R
+</footer>
+
 <script>
-const container = document.getElementById("produtos-container");
-const pesquisa = document.getElementById("pesquisa");
+const produtos = [
+  {nome:"Portão Garagem 1", categoria:"Portão Garagem", descricao:"Medidas padrão", preco:350, imagem:"img/portao1.jpg"},
+  {nome:"Portão Garagem 2", categoria:"Portão Garagem", descricao:"Gradeado", preco:400, imagem:"img/portao2.jpg"},
+  {nome:"Portão Social 1", categoria:"Portão Social", descricao:"Simples", preco:300, imagem:"img/portao3.jpg"},
+  {nome:"Portão Industrial 1", categoria:"Portão Industrial", descricao:"Grande", preco:800, imagem:"img/portao4.jpg"},
+  {nome:"Portão Industrial 2", categoria:"Portão Industrial", descricao:"Duplo", preco:950, imagem:"img/portao5.jpg"},
+  // Adicione mais produtos como placeholders...
+];
 
-function renderProdutos() {
-  container.innerHTML = "";
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-  produtos.forEach(p => {
-    if(!p.nome.toLowerCase().includes(pesquisa.value.toLowerCase())) return;
+const container = document.getElementById('produtosContainer');
 
-    const div = document.createElement("div");
-    div.className = "card" + (p.estoque ? "" : " fora");
-    div.innerHTML = `
-      <img src="img/${p.id}.jpg" alt="${p.nome}">
+function renderProdutos(lista) {
+  container.innerHTML = '';
+  lista.forEach((p, idx) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${p.imagem}" alt="${p.nome}">
       <div class="info">
         <h4>${p.nome}</h4>
-        <p>${p.categoria} - ${p.preco}</p>
-        <textarea placeholder="Informe medidas ou observações..." id="medidas-${p.id}"></textarea>
-        <button class="botao-comprar" onclick="comprarProduto('${p.id}')">
-          Comprar pelo WhatsApp
-        </button>
+        <p>${p.descricao}</p>
+        <p><strong>R$ ${p.preco.toFixed(2)}</strong></p>
+        <button class="botao-comprar" onclick="enviarWhatsApp('${p.nome}')">Solicitar Orçamento</button>
       </div>
     `;
-    container.appendChild(div);
+    container.appendChild(card);
   });
 }
 
-pesquisa.addEventListener("input", renderProdutos);
-
-function comprarProduto(id) {
-  const produto = (JSON.parse(localStorage.getItem("produtos")) || []).find(p => p.id===id);
-  const medidas = document.getElementById(`medidas-${id}`).value.trim();
-
-  if(!medidas) {
-    const confirmar = confirm("Você não informou medidas ou detalhes. Deseja enviar o pedido mesmo assim?");
-    if(!confirmar) return;
+function enviarWhatsApp(produto){
+  let desc = prompt('Digite a descrição/medidas do produto:');
+  if(desc === null) return;
+  if(desc.trim() === '') {
+    if(!confirm('Você não digitou descrição. Enviar mesmo assim?')) return;
   }
-
-  const msg = `
-Olá! Gostaria de um orçamento.
-
-Produto: ${produto.nome}
-Categoria: ${produto.categoria}
-Preço base: ${produto.preco}
-
-Medidas / Observações:
-${medidas || "Não informado"}
-  `.trim();
-
-  window.open(`https://wa.me/558881781527?text=${encodeURIComponent(msg)}`, "_blank");
+  const msg = `Olá! Gostaria de solicitar o orçamento do produto: ${produto}\nDescrição: ${desc}`;
+  const url = `https://wa.me/558881781527?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
 }
 
-renderProdutos();
+renderProdutos(produtos);
+
+// Pesquisa
+document.getElementById('pesquisa').addEventListener('input', (e) => {
+  const termo = e.target.value.toLowerCase();
+  const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(termo));
+  renderProdutos(filtrados);
+});
 </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Produtos - Metalúrgica R</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
-<header>
-  <h1><span class="metalurgica">Metalúrgica</span><span class="r">R</span></h1>
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="produtos.html">Produtos</a>
-    <a href="contato.html">Contato</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
-
-<section style="text-align:center; margin:20px;">
-  <input type="text" id="pesquisa" placeholder="Pesquisar produto...">
-</section>
-
-<div class="produtos-container" id="produtos-container"></div>
-
-<script src="js/script.js"></script>
-<script>
-const container = document.getElementById("produtos-container");
-const pesquisa = document.getElementById("pesquisa");
-
-function renderProdutos() {
-  container.innerHTML = "";
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-  produtos.forEach(p => {
-    if(!p.nome.toLowerCase().includes(pesquisa.value.toLowerCase())) return;
-
-    const div = document.createElement("div");
-    div.className = "card" + (p.estoque ? "" : " fora");
-    div.innerHTML = `
-      <img src="img/${p.id}.jpg" alt="${p.nome}">
-      <div class="info">
-        <h4>${p.nome}</h4>
-        <p>${p.categoria} - ${p.preco}</p>
-        <textarea placeholder="Informe medidas ou observações..." id="medidas-${p.id}"></textarea>
-        <button class="botao-comprar" onclick="comprarProduto('${p.id}')">
-          Comprar pelo WhatsApp
-        </button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-pesquisa.addEventListener("input", renderProdutos);
-
-function comprarProduto(id) {
-  const produto = (JSON.parse(localStorage.getItem("produtos")) || []).find(p => p.id===id);
-  const medidas = document.getElementById(`medidas-${id}`).value.trim();
-
-  if(!medidas) {
-    const confirmar = confirm("Você não informou medidas ou detalhes. Deseja enviar o pedido mesmo assim?");
-    if(!confirmar) return;
-  }
-
-  const msg = `
-Olá! Gostaria de um orçamento.
-
-Produto: ${produto.nome}
-Categoria: ${produto.categoria}
-Preço base: ${produto.preco}
-
-Medidas / Observações:
-${medidas || "Não informado"}
-  `.trim();
-
-  window.open(`https://wa.me/558881781527?text=${encodeURIComponent(msg)}`, "_blank");
-}
-
-renderProdutos();
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Produtos - Metalúrgica R</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<header>
-  <h1><span class="metalurgica">Metalúrgica</span><span class="r">R</span></h1>
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="produtos.html">Produtos</a>
-    <a href="contato.html">Contato</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
-
-<section style="text-align:center; margin:20px;">
-  <input type="text" id="pesquisa" placeholder="Pesquisar produto...">
-</section>
-
-<div class="produtos-container" id="produtos-container"></div>
-
-<script src="js/script.js"></script>
-<script>
-const container = document.getElementById("produtos-container");
-const pesquisa = document.getElementById("pesquisa");
-
-function renderProdutos() {
-  container.innerHTML = "";
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-  produtos.forEach(p => {
-    if(!p.nome.toLowerCase().includes(pesquisa.value.toLowerCase())) return;
-
-    const div = document.createElement("div");
-    div.className = "card" + (p.estoque ? "" : " fora");
-    div.innerHTML = `
-      <img src="img/${p.id}.jpg" alt="${p.nome}">
-      <div class="info">
-        <h4>${p.nome}</h4>
-        <p>${p.categoria} - ${p.preco}</p>
-        <textarea placeholder="Informe medidas ou observações..." id="medidas-${p.id}"></textarea>
-        <button class="botao-comprar" onclick="comprarProduto('${p.id}')">
-          Comprar pelo WhatsApp
-        </button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-pesquisa.addEventListener("input", renderProdutos);
-
-function comprarProduto(id) {
-  const produto = (JSON.parse(localStorage.getItem("produtos")) || []).find(p => p.id===id);
-  const medidas = document.getElementById(`medidas-${id}`).value.trim();
-
-  if(!medidas) {
-    const confirmar = confirm("Você não informou medidas ou detalhes. Deseja enviar o pedido mesmo assim?");
-    if(!confirmar) return;
-  }
-
-  const msg = `
-Olá! Gostaria de um orçamento.
-
-Produto: ${produto.nome}
-Categoria: ${produto.categoria}
-Preço base: ${produto.preco}
-
-Medidas / Observações:
-${medidas || "Não informado"}
-  `.trim();
-
-  window.open(`https://wa.me/558881781527?text=${encodeURIComponent(msg)}`, "_blank");
-}
-
-renderProdutos();
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Produtos - Metalúrgica R</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<header>
-  <h1><span class="metalurgica">Metalúrgica</span><span class="r">R</span></h1>
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="produtos.html">Produtos</a>
-    <a href="contato.html">Contato</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
-
-<section style="text-align:center; margin:20px;">
-  <input type="text" id="pesquisa" placeholder="Pesquisar produto...">
-</section>
-
-<div class="produtos-container" id="produtos-container"></div>
-
-<script src="js/script.js"></script>
-<script>
-const container = document.getElementById("produtos-container");
-const pesquisa = document.getElementById("pesquisa");
-
-function renderProdutos() {
-  container.innerHTML = "";
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-  produtos.forEach(p => {
-    if(!p.nome.toLowerCase().includes(pesquisa.value.toLowerCase())) return;
-
-    const div = document.createElement("div");
-    div.className = "card" + (p.estoque ? "" : " fora");
-    div.innerHTML = `
-      <img src="img/${p.id}.jpg" alt="${p.nome}">
-      <div class="info">
-        <h4>${p.nome}</h4>
-        <p>${p.categoria} - ${p.preco}</p>
-        <textarea placeholder="Informe medidas ou observações..." id="medidas-${p.id}"></textarea>
-        <button class="botao-comprar" onclick="comprarProduto('${p.id}')">
-          Comprar pelo WhatsApp
-        </button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-pesquisa.addEventListener("input", renderProdutos);
-
-function comprarProduto(id) {
-  const produto = (JSON.parse(localStorage.getItem("produtos")) || []).find(p => p.id===id);
-  const medidas = document.getElementById(`medidas-${id}`).value.trim();
-
-  if(!medidas) {
-    const confirmar = confirm("Você não informou medidas ou detalhes. Deseja enviar o pedido mesmo assim?");
-    if(!confirmar) return;
-  }
-
-  const msg = `
-Olá! Gostaria de um orçamento.
-
-Produto: ${produto.nome}
-Categoria: ${produto.categoria}
-Preço base: ${produto.preco}
-
-Medidas / Observações:
-${medidas || "Não informado"}
-  `.trim();
-
-  window.open(`https://wa.me/558881781527?text=${encodeURIComponent(msg)}`, "_blank");
-}
-
-renderProdutos();
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Produtos - Metalúrgica R</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<header>
-  <h1><span class="metalurgica">Metalúrgica</span><span class="r">R</span></h1>
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="produtos.html">Produtos</a>
-    <a href="contato.html">Contato</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
-
-<section style="text-align:center; margin:20px;">
-  <input type="text" id="pesquisa" placeholder="Pesquisar produto...">
-</section>
-
-<div class="produtos-container" id="produtos-container"></div>
-
-<script src="js/script.js"></script>
-<script>
-const container = document.getElementById("produtos-container");
-const pesquisa = document.getElementById("pesquisa");
-
-function renderProdutos() {
-  container.innerHTML = "";
-  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-  produtos.forEach(p => {
-    if(!p.nome.toLowerCase().includes(pesquisa.value.toLowerCase())) return;
-
-    const div = document.createElement("div");
-    div.className = "card" + (p.estoque ? "" : " fora");
-    div.innerHTML = `
-      <img src="img/${p.id}.jpg" alt="${p.nome}">
-      <div class="info">
-        <h4>${p.nome}</h4>
-        <p>${p.categoria} - ${p.preco}</p>
-        <textarea placeholder="Informe medidas ou observações..." id="medidas-${p.id}"></textarea>
-        <button class="botao-comprar" onclick="comprarProduto('${p.id}')">
-          Comprar pelo WhatsApp
-        </button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-pesquisa.addEventListener("input", renderProdutos);
-
-function comprarProduto(id) {
-  const produto = (JSON.parse(localStorage.getItem("produtos")) || []).find(p => p.id===id);
-  const medidas = document.getElementById(`medidas-${id}`).value.trim();
-
-  if(!medidas) {
-    const confirmar = confirm("Você não informou medidas ou detalhes. Deseja enviar o pedido mesmo assim?");
-    if(!confirmar) return;
-  }
-
-  const msg = `
-Olá! Gostaria de um orçamento.
-
-Produto: ${produto.nome}
-Categoria: ${produto.categoria}
-Preço base: ${produto.preco}
-
-Medidas / Observações:
-${medidas || "Não informado"}
-  `.trim();
-
-  window.open(`https://wa.me/558881781527?text=${encodeURIComponent(msg)}`, "_blank");
-}
-
-renderProdutos();
-</script>
 </body>
 </html>
