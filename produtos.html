@@ -5,84 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Produtos - Metalúrgica R</title>
 <link rel="stylesheet" href="css/style.css">
-<style>
-/* ===== ajustes locais da página de produtos ===== */
-.produtos-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.card {
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 8px;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: 0.3s;
-}
-
-.card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.info h4 {
-  margin: 0 0 6px 0;
-  font-size: 18px;
-  color: #222;
-}
-
-.info p {
-  margin: 0;
-  color: #555;
-  font-size: 15px;
-}
-
-.botao-comprar {
-  background: #2a9d8f;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-.botao-comprar:hover {
-  background: #21867a;
-}
-
-textarea {
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  width: 100%;
-  resize: vertical;
-  font-size: 14px;
-}
-
-#pesquisa {
-  width: 90%;
-  max-width: 400px;
-  margin: 20px auto;
-  display: block;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-</style>
 </head>
 <body>
 
@@ -96,91 +18,46 @@ textarea {
   </nav>
 </header>
 
-<section style="text-align:center;">
-  <input type="text" id="pesquisa" placeholder="Pesquisar produto...">
+<section style="text-align:center; margin:20px;">
+  <input type="text" id="pesquisa" placeholder="Pesquisar produtos...">
 </section>
 
-<section class="produtos-container" id="produtos-container">
-  <!-- Produtos serão carregados dinamicamente -->
+<section class="produtos-container" id="produtosContainer">
+  <!-- Produtos serão inseridos via JS ou HTML manual -->
+  <div class="card">
+    <img src="images/portao1.jpg" alt="Portão Garagem 1">
+    <div class="info">
+      <h4>Portão Garagem 1</h4>
+      <p>Portão padrão de garagem</p>
+      <a href="https://wa.me/558881781527" class="botao-comprar" target="_blank">Solicitar Orçamento</a>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/portao2.jpg" alt="Portão Social 1">
+    <div class="info">
+      <h4>Portão Social 1</h4>
+      <p>Portão social com detalhes</p>
+      <a href="https://wa.me/558881781527" class="botao-comprar" target="_blank">Solicitar Orçamento</a>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/portao3.jpg" alt="Portão Industrial 1">
+    <div class="info">
+      <h4>Portão Industrial 1</h4>
+      <p>Portão industrial reforçado</p>
+      <a href="https://wa.me/558881781527" class="botao-comprar" target="_blank">Solicitar Orçamento</a>
+    </div>
+  </div>
+  <!-- Duplicar ou gerar novos produtos aqui -->
 </section>
 
 <section style="text-align:center; margin:20px;">
-  <a href="index.html" class="botao-comprar" style="padding:12px 25px;">Voltar ao Início</a>
+  <a href="index.html" class="botao-comprar">Voltar para Início</a>
 </section>
 
-<script>
-// ===== produtos padrão =====
-const produtos = [
-  { id:'portao-garagem-1', nome:'Portão Garagem Gradeado', categoria:'Portão Garagem', preco:450.00, estoque:true },
-  { id:'portao-garagem-2', nome:'Portão Garagem Simples', categoria:'Portão Garagem', preco:350.00, estoque:true },
-  { id:'portao-garagem-3', nome:'Portão Garagem Enfeitado', categoria:'Portão Garagem', preco:500.00, estoque:true },
-  { id:'portao-garagem-4', nome:'Portão Garagem Duplo', categoria:'Portão Garagem', preco:600.00, estoque:true },
-  { id:'portao-garagem-5', nome:'Portão Garagem Furado', categoria:'Portão Garagem', preco:400.00, estoque:true },
-
-  { id:'portao-industrial-1', nome:'Portão Industrial Gradeado', categoria:'Portão Industrial', preco:800.00, estoque:true },
-  { id:'portao-industrial-2', nome:'Portão Industrial Simples', categoria:'Portão Industrial', preco:700.00, estoque:true },
-  { id:'portao-industrial-3', nome:'Portão Industrial Enfeitado', categoria:'Portão Industrial', preco:950.00, estoque:true },
-  { id:'portao-industrial-4', nome:'Portão Industrial Duplo', categoria:'Portão Industrial', preco:1000.00, estoque:true },
-  { id:'portao-industrial-5', nome:'Portão Industrial Furado', categoria:'Portão Industrial', preco:850.00, estoque:true },
-
-  { id:'portao-social-1', nome:'Portão Social Gradeado', categoria:'Portão Social', preco:400.00, estoque:true },
-  { id:'portao-social-2', nome:'Portão Social Simples', categoria:'Portão Social', preco:350.00, estoque:true },
-  { id:'portao-social-3', nome:'Portão Social Enfeitado', categoria:'Portão Social', preco:450.00, estoque:true },
-  { id:'portao-social-4', nome:'Portão Social Duplo', categoria:'Portão Social', preco:500.00, estoque:true },
-  { id:'portao-social-5', nome:'Portão Social Furado', categoria:'Portão Social', preco:420.00, estoque:true }
-];
-
-// ===== renderização =====
-const container = document.getElementById("produtos-container");
-const pesquisa = document.getElementById("pesquisa");
-
-function renderProdutos() {
-  container.innerHTML = '';
-  produtos.forEach(p => {
-    if (!p.nome.toLowerCase().includes(pesquisa.value.toLowerCase())) return;
-
-    const div = document.createElement('div');
-    div.className = 'card' + (p.estoque ? '' : ' fora');
-    div.innerHTML = `
-      <img src="img/${p.id}.jpg" alt="${p.nome}">
-      <div class="info">
-        <h4>${p.nome}</h4>
-        <p>${p.categoria} - R$ ${p.preco.toFixed(2)}</p>
-        <textarea id="medidas-${p.id}" placeholder="Medidas ou observações..."></textarea>
-        <button class="botao-comprar" onclick="comprarProduto('${p.id}')">Comprar pelo WhatsApp</button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-pesquisa.addEventListener('input', renderProdutos);
-
-function comprarProduto(id) {
-  const p = produtos.find(prod => prod.id === id);
-  const medidas = document.getElementById(`medidas-${id}`).value.trim();
-
-  if (!medidas) {
-    const conf = confirm("Você não informou medidas ou detalhes. Deseja enviar mesmo assim?");
-    if (!conf) return;
-  }
-
-  const msg = `
-Olá! Gostaria de um orçamento.
-
-Produto: ${p.nome}
-Categoria: ${p.categoria}
-Preço: R$ ${p.preco.toFixed(2)}
-
-Medidas / Observações:
-${medidas || 'Não informado'}
-  `.trim();
-
-  window.open(`https://wa.me/558881781527?text=${encodeURIComponent(msg)}`, '_blank');
-}
-
-renderProdutos();
-</script>
+<footer>
+  © Rafael Rubens
+</footer>
 
 </body>
 </html>
