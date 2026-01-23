@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Metalúrgica R</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Metalúrgica R</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -14,7 +14,6 @@
     <a href="index.html">Início</a>
     <a href="produtos.html">Produtos</a>
     <a href="contato.html">Contato</a>
-    <a href="admin.html">Admin</a>
   </nav>
 </header>
 
@@ -23,18 +22,30 @@
   <p>Algodões – Quixeramobim (Interior de Quixeramobim)</p>
 </section>
 
-<section class="intro" style="text-align:center; margin:20px;">
+<section class="intro" style="text-align:center;">
   <h2>Bem-vindo à Metalúrgica R</h2>
   <p>Confira nossos portões e serviços. Clique em "Produtos" para ver mais.</p>
-</section>
-
-<section style="text-align:center; margin:20px;">
   <a href="produtos.html" class="botao-comprar">Ver Produtos</a>
 </section>
 
+<section style="text-align:center;">
+  <button id="botaoAdmin">Acessar Admin</button>
+</section>
+
 <footer>
-  © Rafael Rubens
+  &copy; Rafael Rubens - Metalúrgica R
 </footer>
+
+<script>
+  document.getElementById('botaoAdmin').addEventListener('click', () => {
+    const senha = prompt('Digite a senha do Admin:');
+    if(senha === '12345') {
+      window.location.href = 'admin.html';
+    } else {
+      alert('Senha incorreta!');
+    }
+  });
+</script>
 
 </body>
 </html>
