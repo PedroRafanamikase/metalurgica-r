@@ -1,66 +1,82 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Produtos – Metalúrgica R</title>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/script.js" defer></script>
+<meta charset="UTF-8">
+<title>Produtos - Metalúrgica R</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header class="topo">
-  <h1 class="logo">
-    <span class="metal">Metalúrgica</span><span class="r">R</span>
-  </h1>
-  <nav class="nav">
+<header>
+  <h1><span class="metalurgica">Metalúrgica</span><span class="r">R</span></h1>
+  <nav>
     <a href="index.html">Início</a>
     <a href="produtos.html">Produtos</a>
     <a href="contato.html">Contato</a>
+    <a href="admin.html">Admin</a>
   </nav>
 </header>
 
-<main class="container">
-
-<a href="index.html" class="voltar-inicio">← Voltar ao início</a>
-
-<input type="search" id="pesquisa" placeholder="Pesquisar portão...">
-
-<nav class="menu">
-  <button onclick="filtrar('todos')">Todos</button>
-  <button onclick="filtrar('portao-garagem')">Portão Garagem</button>
-  <button onclick="filtrar('portao-social')">Portão Social</button>
-  <button onclick="filtrar('portao-industrial')">Portão Industrial</button>
-</nav>
-
-<section class="produtos">
-
-<div class="produto" data-cat="portao-garagem">
-  <img src="imagens/portao-garagem.jpg">
-  <h3>Portão Garagem Gradeado</h3>
-  <p>R$ 2.500</p>
-  <a class="btn" href="produto.html">Solicitar orçamento</a>
-</div>
-
-<div class="produto" data-cat="portao-social">
-  <img src="imagens/portao-social.jpg">
-  <h3>Portão Social Enfeitado</h3>
-  <p>R$ 1.900</p>
-  <a class="btn" href="produto.html">Solicitar orçamento</a>
-</div>
-
-<div class="produto" data-cat="portao-industrial">
-  <img src="imagens/portao-industrial.jpg">
-  <h3>Portão Industrial Reforçado</h3>
-  <p>R$ 5.200</p>
-  <a class="btn" href="produto.html">Solicitar orçamento</a>
-</div>
-
+<section style="text-align:center; margin:20px;">
+  <input type="text" id="pesquisa" placeholder="Pesquisar produto...">
 </section>
-</main>
 
-<footer>
-  <p>© 2026 – Rafael Rubens</p>
-</footer>
+<div class="produtos-container" id="produtos-container"></div>
 
+<script src="js/script.js"></script>
+<script>
+const container = document.getElementById("produtos-container");
+const pesquisa = document.getElementById("pesquisa");
+
+function renderProdutos() {
+  container.innerHTML = "";
+  const produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+  produtos.forEach(p => {
+    if(!p.nome.toLowerCase().includes(pesquisa.value.toLowerCase())) return;
+
+    const div = document.createElement("div");
+    div.className = "card" + (p.estoque ? "" : " fora");
+    div.innerHTML = `
+      <img src="img/${p.id}.jpg" alt="${p.nome}">
+      <div class="info">
+        <h4>${p.nome}</h4>
+        <p>${p.categoria} - ${p.preco}</p>
+        <textarea placeholder="Informe medidas ou observações..." id="medidas-${p.id}"></textarea>
+        <button class="botao-comprar" onclick="comprarProduto('${p.id}')">
+          Comprar pelo WhatsApp
+        </button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+pesquisa.addEventListener("input", renderProdutos);
+
+function comprarProduto(id) {
+  const produto = (JSON.parse(localStorage.getItem("produtos")) || []).find(p => p.id===id);
+  const medidas = document.getElementById(`medidas-${id}`).value.trim();
+
+  if(!medidas) {
+    const confirmar = confirm("Você não informou medidas ou detalhes. Deseja enviar o pedido mesmo assim?");
+    if(!confirmar) return;
+  }
+
+  const msg = `
+Olá! Gostaria de um orçamento.
+
+Produto: ${produto.nome}
+Categoria: ${produto.categoria}
+Preço base: ${produto.preco}
+
+Medidas / Observações:
+${medidas || "Não informado"}
+  `.trim();
+
+  window.open(`https://wa.me/558881781527?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+renderProdutos();
+</script>
 </body>
 </html>
