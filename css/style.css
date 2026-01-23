@@ -140,7 +140,7 @@ section h2, section h3 {
    =========================== */
 .produtos-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
   gap: 20px;
   padding: 12px 0;
 }
@@ -154,10 +154,6 @@ section h2, section h3 {
   flex-direction: column;
   gap: 10px;
   transition: 0.3s;
-}
-
-.card.fora {
-  opacity: 0.7;
 }
 
 .card:hover {
@@ -190,10 +186,6 @@ textarea {
   width: 100%;
   resize: vertical;
   font-size: 14px;
-}
-
-.card .botao-comprar {
-  margin-top: 6px;
 }
 
 /* ===========================
@@ -304,7 +296,7 @@ img.thumb {
 }
 
 /* ===========================
-   RODAPÉ / COPYRIGHT
+   RODAPÉ
    =========================== */
 footer {
   text-align: center;
