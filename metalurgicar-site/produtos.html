@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Produtos – Metalúrgica R</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+
+<header class="topo">
+  <h1 class="logo">
+    <span class="metal">Metalúrgica</span><span class="r">R</span>
+  </h1>
+  <nav class="nav">
+    <a href="index.html">Início</a>
+    <a href="produtos.html">Produtos</a>
+    <a href="contato.html">Contato</a>
+  </nav>
+</header>
+
+<main class="container">
+
+<a href="index.html" class="voltar-inicio">← Voltar ao início</a>
+
+<input type="search" id="pesquisa" placeholder="Pesquisar portão...">
+
+<nav class="menu">
+  <button onclick="filtrar('todos')">Todos</button>
+  <button onclick="filtrar('portao-garagem')">Portão Garagem</button>
+  <button onclick="filtrar('portao-social')">Portão Social</button>
+  <button onclick="filtrar('portao-industrial')">Portão Industrial</button>
+</nav>
+
+<section class="produtos">
+
+<div class="produto" data-cat="portao-garagem">
+  <img src="imagens/portao-garagem.jpg">
+  <h3>Portão Garagem Gradeado</h3>
+  <p>R$ 2.500</p>
+  <a class="btn" href="produto.html">Solicitar orçamento</a>
+</div>
+
+<div class="produto" data-cat="portao-social">
+  <img src="imagens/portao-social.jpg">
+  <h3>Portão Social Enfeitado</h3>
+  <p>R$ 1.900</p>
+  <a class="btn" href="produto.html">Solicitar orçamento</a>
+</div>
+
+<div class="produto" data-cat="portao-industrial">
+  <img src="imagens/portao-industrial.jpg">
+  <h3>Portão Industrial Reforçado</h3>
+  <p>R$ 5.200</p>
+  <a class="btn" href="produto.html">Solicitar orçamento</a>
+</div>
+
+</section>
+</main>
+
+<footer>
+  <p>© 2026 – Rafael Rubens</p>
+</footer>
+
+</body>
+</html>
